@@ -13,7 +13,7 @@
         }
 
         #headingtext {
-            font-size: 20px;
+            font-size: 30px;
             font-family: Segoe UI;
             line-height: 20px;
             color: white;
@@ -22,19 +22,19 @@
         }
 
         #heading {
-            background-color: RGBA(0, 16, 96, 1);
+            background-color: darkblue;
             height: 50px;
         }
 
         .main {
             margin: 4px;
             border-radius: 8px;
-            font-size:20px;
+            font-size:30px;
         }
 
         div[role="form"]{
-            background-color: RGBA(0, 16, 96, 1);
-            font-size:20px;
+            background-color: darkblue;
+            font-size:30px;
         }
 
         #webchat {
@@ -43,7 +43,7 @@
             width: 100%;
             top: 50px;
             overflow: hidden;
-            font-size:20px;
+            font-size:30px;
         }
 
     </style>
@@ -61,9 +61,7 @@
   <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
 
   <script>
-  var url = window.location.href;
-
-  
+      var url = window.location.href;
         const styleOptions = {
 
            // Add styleOptions to customize Web Chat canvas
@@ -71,9 +69,10 @@
         };
 
         // Add your BOT ID below 
-        var BOT_ID = "97343428-5ab5-4cc3-a393-db873c954643"; 
+        var BOT_ID = "227045c4-427a-45d3-b184-b43bb718b26b"; 
         var theURL = "https://powerva.microsoft.com/api/botmanagement/v1/directline/directlinetoken?botId=" + BOT_ID;
-  const store = WebChat.createStore({}, ({ dispatch }) => next => action => {
+      
+ const store = WebChat.createStore({}, ({ dispatch }) => next => action => {
      if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
        dispatch({
           type: "WEB_CHAT/SEND_EVENT",
@@ -87,6 +86,7 @@
       }
         return next(action);
     });
+      
       fetch(theURL)
             .then(response => response.json())
             .then(conversationInfo => {
