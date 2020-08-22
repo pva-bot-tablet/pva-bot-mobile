@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>safety compliance assistance bot</title> 
+    <!-- This styling is for the Web Chat demonstration purposes. It is recommended that style is moved to separate file for organization in larger projects -->
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        #headingtext {
+            font-size: 20px;
+            font-family: Segoe UI;
+            line-height: 20px;
+            color: white;
+            display: table-cell;
+            padding: 13px 0px 0px 20px;
+        }
+
+        #heading {
+            background-color: RGBA(0, 16, 96, 1);
+            height: 50px;
+        }
+
+        .main {
+            margin: 4px;
+            border-radius: 8px;
+            font-size:20px;
+        }
+
+        div[role="form"]{
+            background-color: RGBA(0, 16, 96, 1);
+            font-size:20px;
+        }
+
+        #webchat {
+            position: fixed;
+            height: calc(100% - 50px);
+            width: 100%;
+            top: 50px;
+            overflow: hidden;
+            font-size:20px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div>
+        <div id="heading">
+            <!-- Change the h1 text to change the bot name -->    
+            <div id="headingtext">safety compliance assistance bot</div>
+        </div>
+        <div id="webchat" role="main"></div>
+    </div>    
+
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+
+  <script>
+  var url = window.location.href;
+
+  
+        const styleOptions = {
+
+           // Add styleOptions to customize Web Chat canvas
+           hideUploadButton: true
+        };
+
+        // Add your BOT ID below 
+        var BOT_ID = "97343428-5ab5-4cc3-a393-db873c954643"; 
+        var theURL = "https://powerva.microsoft.com/api/botmanagement/v1/directline/directlinetoken?botId=" + BOT_ID;
+  const store = WebChat.createStore({}, ({ dispatch }) => next => action => {
+     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+       dispatch({
+          type: "WEB_CHAT/SEND_EVENT",
+          payload: {
+            name: "pvaSetContext",
+            value: {
+               "UserName":   url.split("=")[1],
+            }
+          },
+        });
+      }
+        return next(action);
+    });
+      fetch(theURL)
+            .then(response => response.json())
+            .then(conversationInfo => {
+                window.WebChat.renderWebChat(
+                    {
+                        directLine: window.WebChat.createDirectLine({
+                            token: conversationInfo.token,
+                        }),
+                        store,
+                        styleOptions
+                    },
+                    document.getElementById('webchat')
+                );
+            })
+            .catch(err => console.error("An error occurred: " + err));
+
+    </script>
+  </body>
+</html>
